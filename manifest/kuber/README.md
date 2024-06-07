@@ -2,7 +2,7 @@
 
 ## Материалы
 
-* (Kubernetes)[https://kubernetes.io/]
+* [Kubernetes](https://kubernetes.io/)
 
 ## Установить Docker
 
