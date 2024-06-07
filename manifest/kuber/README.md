@@ -1,9 +1,5 @@
 # Kubernetes
 
-## Материалы
-
-* [Kubernetes](https://kubernetes.io/)
-
 ## Установить Docker
 
 ```
@@ -20,7 +16,29 @@ $ echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
 kubectl: OK
 ```
 
+Если OK, то идем дальше
+
+```
+$ chmod +x kubectl
+$ mv ./kubectl* ~/.local/bin/
+$ kubectl version --client --output=yaml
+clientVersion:
+  buildDate: "2022-02-16T11:24:04Z"
+  compiler: gc
+  gitCommit: a7a32748b5c60445c4c7ee904caf01b91f2dbb71
+  gitTreeState: clean
+  gitVersion: v1.21.10
+  goVersion: go1.16.14
+  major: "1"
+  minor: "21"
+  platform: linux/amd64
+```
+
+Готово
 
 ## Установить kind
 
 
+## Материалы
+
+* [Kubernetes](https://kubernetes.io/)
