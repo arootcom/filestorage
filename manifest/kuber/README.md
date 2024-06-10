@@ -40,8 +40,47 @@ clientVersion:
 
 ## Установить kind
 
+```
+$ curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.23.0/kind-linux-amd64
+$ chmod +x ./kind
+$ mv ./kind ~/.local/bin/
+$ kind --version
+kind version 0.23.0
+```
+
+## Создать кластер
+
+Удалить прежний кластер, если имеется
+
+```
+$ kind delete cluster --name=kind
+Deleting cluster "kind" ...
+```
+
+Создать новый кластер
+
+```
+$ kind create cluster --image kindest/node:v1.21.10
+Creating cluster "kind" ...
+ ✓ Ensuring node image (kindest/node:v1.21.10) 🖼 
+ ✓ Preparing nodes 📦  
+ ✓ Writing configuration 📜 
+ ✓ Starting control-plane 🕹️ 
+ ✓ Installing CNI 🔌 
+ ✓ Installing StorageClass 💾 
+Set kubectl context to "kind-kind"
+You can now use your cluster with:
+
+kubectl cluster-info --context kind-kind
+
+Have a nice day! 👋
+```
 
 ## Материалы
 
 * [Kubernetes](https://kubernetes.io/)
+* [Kind](https://kind.sigs.k8s.io/)
 * [Install and Set Up kubectl on Linux](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
+* [Kind quick start](https://kind.sigs.k8s.io/docs/user/quick-start/)
+* [Kind](https://kind.sigs.k8s.io/)
+* [kindest/node](https://hub.docker.com/r/kindest/node/tags?page=&page_size=&ordering=&name=1.21.10)
