@@ -100,6 +100,14 @@ CONTAINER ID   IMAGE                   COMMAND                  CREATED         
 16f1e7d4cdcf   kindest/node:v1.21.10   "/usr/local/bin/entr…"   About an hour ago   Up About an hour   127.0.0.1:44525->6443/tcp   kind-control-plane
 ```
 
+Что бы подключиться к узлу, нужно выполнить следующую команду
+
+```
+$ docker exec -i -t 16f1e7d4cdcf /bin/bash
+root@kind-control-plane:/# kubelet --version
+Kubernetes v1.21.10
+```
+
 ## Материалы
 
 * [Kubernetes](https://kubernetes.io/)
