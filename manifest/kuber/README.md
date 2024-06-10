@@ -62,18 +62,42 @@ Deleting cluster "kind" ...
 ```
 $ kind create cluster --image kindest/node:v1.21.10
 Creating cluster "kind" ...
- ✓ Ensuring node image (kindest/node:v1.21.10) 🖼 
- ✓ Preparing nodes 📦  
- ✓ Writing configuration 📜 
- ✓ Starting control-plane 🕹️ 
- ✓ Installing CNI 🔌 
- ✓ Installing StorageClass 💾 
+ ✓ Ensuring node image (kindest/node:v1.21.10)
+ ✓ Preparing nodes
+ ✓ Writing configuration
+ ✓ Starting control-plane
+ ✓ Installing CNI
+ ✓ Installing StorageClass
 Set kubectl context to "kind-kind"
 You can now use your cluster with:
 
 kubectl cluster-info --context kind-kind
 
-Have a nice day! 👋
+Have a nice day!
+```
+
+Так можно посмотреть, какие модули Pod выполняются в кластере.
+
+```
+$ kubectl get pods --all-namespaces
+NAMESPACE            NAME                                         READY   STATUS    RESTARTS   AGE
+kube-system          coredns-558bd4d5db-bsngw                     1/1     Running   0          71m
+kube-system          coredns-558bd4d5db-c8zn6                     1/1     Running   0          71m
+kube-system          etcd-kind-control-plane                      1/1     Running   0          71m
+kube-system          kindnet-b5mb6                                1/1     Running   0          71m
+kube-system          kube-apiserver-kind-control-plane            1/1     Running   0          71m
+kube-system          kube-controller-manager-kind-control-plane   1/1     Running   0          71m
+kube-system          kube-proxy-dv8dp                             1/1     Running   0          71m
+kube-system          kube-scheduler-kind-control-plane            1/1     Running   0          71m
+local-path-storage   local-path-provisioner-74567d47b4-ntpqn      1/1     Running   0          71m
+```
+
+Что бы посмотреть, где находиться узел Kubernetes, достаточно спросить об этом Docker
+
+```
+$ docker ps
+CONTAINER ID   IMAGE                   COMMAND                  CREATED             STATUS             PORTS                       NAMES
+16f1e7d4cdcf   kindest/node:v1.21.10   "/usr/local/bin/entr…"   About an hour ago   Up About an hour   127.0.0.1:44525->6443/tcp   kind-control-plane
 ```
 
 ## Материалы
