@@ -108,6 +108,10 @@ root@kind-control-plane:/# kubelet --version
 Kubernetes v1.21.10
 ```
 
+## Глосарий
+
+CRI - (Container Runtime Interface)
+
 ## Материалы
 
 * [Kubernetes](https://kubernetes.io/)
