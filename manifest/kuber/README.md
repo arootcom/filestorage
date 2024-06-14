@@ -110,7 +110,9 @@ Kubernetes v1.21.10
 
 ## Глосарий
 
-CRI - (Container Runtime Interface)
+CRI - Container Runtime Interface. Интейрфейс реды выполнения отвечающий за запуск контейнеров
+CNI - Container Network Interface. Сетевой интерфейс отвечающий за предоставление контейнерам IP-адресов
+SDN - Software-Defined Networking. Позволяет перенастраивать сети больших центров обработки данных
 
 ## Материалы
 
