@@ -1,6 +1,6 @@
 # BusyBox
 
-# Запуск Pod 
+## Запуск Pod 
 
 Обычно модули Pod создаются не в ручную, а спомощью объектов Deployment, DaemonSet или Job.
 Но пока создадим простой одиночный модуль Pod, используя для этого
@@ -24,7 +24,7 @@ core-k8s   1/1     Running   0          7m59s
 $ kubectl get pods -o yaml
 ```
 
-# Исследование Pod
+## Исследование Pod
 
 Запросить состояние модуля Pod
 
@@ -54,3 +54,9 @@ $ kubectl exec -i -t core-k8s -- mount | grep resolv
 /dev/nvme0n1p2 on /etc/resolv.conf type ext4 (rw,relatime,errors=remount-ro)
 ```
 
+## Удаление Pod
+
+```
+$ kubectl delete -f ./pod.yaml 
+pod "core-k8s" deleted
+```
