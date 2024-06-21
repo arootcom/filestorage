@@ -6,6 +6,7 @@
 
 Далее эксперементы проводил на Ubuntu 22.04.1
 Версия Kubernetes:
+
     * Client Version: v1.21.10
     * Server Version: v1.21.10
 
