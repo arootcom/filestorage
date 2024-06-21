@@ -4,9 +4,15 @@
 
 * [Материалы про Kubernetes](./info/)
 
+Далее эксперементы проводил на Ubuntu 22.04.1
+Версия Kubernetes:
+    * Client Version: v1.21.10
+    * Server Version: v1.21.10
+
 ## Установить Docker
 
 ```
+$ sudo apt-get install docker
 $ docker --version
 Docker version 24.0.5, build 24.0.5-0ubuntu1~22.04.1
 ```
