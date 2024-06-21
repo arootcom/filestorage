@@ -29,6 +29,7 @@
 
 * [Kubernetes](https://kubernetes.io/)
 * [Install and Set Up kubectl on Linux](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
+* [Command line tool (kubectl)](https://kubernetes.io/docs/reference/kubectl/)
 * [Kind](https://kind.sigs.k8s.io/)
 * [Kind quick start](https://kind.sigs.k8s.io/docs/user/quick-start/)
 * [Kind configuration](https://kind.sigs.k8s.io/docs/user/configuration/)
