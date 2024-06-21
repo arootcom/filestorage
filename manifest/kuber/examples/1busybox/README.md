@@ -38,7 +38,7 @@ kind
 Так можно посмотреть, какие модули Pod выполняются в кластере.
 
 ```
-$ kubectl get pods --all-namespaces
+$ kubectl get pods -o wide --all-namespaces
 NAMESPACE            NAME                                         READY   STATUS    RESTARTS   AGE
 kube-system          coredns-558bd4d5db-bsngw                     1/1     Running   0          71m
 kube-system          coredns-558bd4d5db-c8zn6                     1/1     Running   0          71m
