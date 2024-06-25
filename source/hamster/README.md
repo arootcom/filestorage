@@ -7,18 +7,35 @@
 * [https://fastapi.tiangolo.com/](https://fastapi.tiangolo.com/)
 * [https://github.com/tiangolo/fastapi](https://github.com/tiangolo/fastapi)
 
+## Подготовка к запуску
+
 ```
 $ pip install fastapi
 $ pip install python-multipart
 ```
 
+## Тестирование
+
+```
+$ pip install pytest
+```
+
+```
+```
+
+## Запуск
+
 ```
 $ fastapi dev api.py
 ```
 
+## Загрузить файл
+
 ```
-$ curl -v -i -X POST -H "Content-Type: multipart/form-data" -F "file=@README.md"  http://localhost:8000/
+$ curl -v -i -X POST -H "Content-Type: multipart/form-data" -F "file=@text.txt"  http://localhost:8000/
 ```
+
+## Получить массив загруженных файлов
 
 ```
 $ curl -v http://localhost:8000/
