@@ -43,3 +43,9 @@ $ curl -v -i -X POST -H "Content-Type: multipart/form-data" -F "file=@text.txt" 
 ```
 $ curl -v http://localhost:8000/
 ```
+
+## Получить данные загруженного файла
+
+```
+$ curl -v http://localhost:8000/test.txt
+```
