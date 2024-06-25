@@ -5,6 +5,7 @@
 Используем Python FastAPI
 
 * [https://fastapi.tiangolo.com/](https://fastapi.tiangolo.com/)
+* [Status Codes](https://fastapi.tiangolo.com/reference/status)
 * [https://github.com/tiangolo/fastapi](https://github.com/tiangolo/fastapi)
 
 ## Подготовка к запуску
@@ -18,9 +19,11 @@ $ pip install python-multipart
 
 ```
 $ pip install pytest
+$ pip install httpx
 ```
 
 ```
+$ pytest ./api.py
 ```
 
 ## Запуск
