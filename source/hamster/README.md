@@ -1,8 +1,13 @@
 # Humster
 
-Сервис Хомяк (Humster), принимает и отображает уже загруженные файлы.
+Сервис Хомяк (Humster) предоставляет следущие интерфейсы REST API:
 
-Используем Python FastAPI
+* Загрузить файл
+* Получить данные ранее загруженного файла
+* Получить список ранее загруженных файлов
+* Удалить ранее загруженный файл
+
+Реализован на языке Python с использованием framework FastAPI
 
 * [https://fastapi.tiangolo.com/](https://fastapi.tiangolo.com/)
 * [Status Codes](https://fastapi.tiangolo.com/reference/status)
@@ -32,6 +37,9 @@ $ pytest ./api.py
 $ fastapi dev api.py
 ```
 
+Документация по методам API в формате swagger, доступен в браузере, после запуска, по адресу http://localhost:8000/docs
+
+
 ## Загрузить файл
 
 ```
@@ -48,4 +56,10 @@ $ curl -v http://localhost:8000/
 
 ```
 $ curl -v http://localhost:8000/test.txt
+```
+
+## Удалить файл
+
+```
+$ curl -v -i -X DELETE http://localhost:8000/test.txt
 ```

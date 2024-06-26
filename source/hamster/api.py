@@ -57,6 +57,19 @@ async def read_file(file_path: str, response: Response):
         return {"message": f"File {file_path} not found"}
 
 #
+
+@app.delete("/{file_path:path}")
+async def delete_file(file_path: str, response: Response):
+    filename = files_dir + "/" + file_path
+    if os.path.isfile(filename):
+        os.remove(filename)
+        response.status_code = status.HTTP_200_OK
+        return {"message": f"The file {file_path} has been deleted"}
+    else:
+        response.status_code = status.HTTP_404_NOT_FOUND
+        return {"message": f"File {file_path} not found"}
+
+#
 # Тесты
 #
 
@@ -82,3 +95,13 @@ def test_get_file():
     response = client.get("/test.txt")
     assert response.status_code == 200
     assert response.text == "This`is test file\nNext string.\n"
+
+def test_delete_file():
+    response = client.delete("/test.txt")
+    assert response.status_code == 200
+    assert response.json() == {'message': 'The file test.txt has been deleted'}
+
+def test_delete_file_not_found():
+    response = client.delete("/test2.txt")
+    assert response.status_code == 404
+    assert response.json() == {'message': 'File test2.txt not found'}
