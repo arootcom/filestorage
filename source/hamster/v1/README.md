@@ -49,7 +49,7 @@ $ docker build -t hamster:0.0.1 .
 2. Запуск Docker-контейнера
 
 ```
-$ docker run -d --name hamster-container -p 8000:80 hamster
+$ docker run -d --name hamster-container -p 8000:80 hamster:0.0.1
 ```
 
 ## API
