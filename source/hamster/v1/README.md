@@ -43,7 +43,7 @@ $ fastapi dev api.py
 1. Создать Docker-образ
 
 ```
-$ docker build -t hamster .
+$ docker build -t hamster:0.0.1 .
 ```
 
 2. Запуск Docker-контейнера
