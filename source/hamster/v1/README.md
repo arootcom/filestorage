@@ -43,13 +43,13 @@ $ fastapi dev api.py
 1. Создать Docker-образ
 
 ```
-$ docker build -t humster .
+$ docker build -t hamster .
 ```
 
 2. Запуск Docker-контейнера
 
 ```
-$ docker run -d --name humster-container -p 8000:80 humster
+$ docker run -d --name hamster-container -p 8000:80 hamster
 ```
 
 ## API
