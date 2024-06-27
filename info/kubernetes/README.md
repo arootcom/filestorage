@@ -25,6 +25,44 @@
 
 **SDN** (Software-Defined Networking) Позволяет перенастраивать сети больших центров обработки данныхt 
 
+## Полезные команды
+
+1. Удалить кластер
+
+```
+$ kind delete cluster --name=filestorage
+```
+
+2. Список кластеров
+
+```
+$ kind get clusters
+```
+
+3. Список докер контейнеров кластера
+
+```
+$ docker ps
+```
+
+4. Список узлов кластера
+
+```
+$ kubectl get nodes -o wide
+```
+
+5. Список подов кластера
+
+```
+$ kubectl get pods --all-namespaces -o wide
+```
+
+6. Список сервисов кластера
+
+```
+$ kubectl get services -o wide
+```
+
 ## Полезные ссылки
 
 * [Kubernetes](https://kubernetes.io/)
