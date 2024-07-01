@@ -59,7 +59,7 @@ $ docker run -d --name hamster-container -p 8000:80 hamster:0.0.1
 1. Загрузить файл
 
 ```
-$ curl -v -i -X POST -H "Content-Type: multipart/form-data" -F "file=@text.txt"  http://localhost:8000/
+$ curl -v -i -X POST -H "Content-Type: multipart/form-data" -F "file=@test.txt"  http://localhost:8000/
 ```
 
 2. Получить массив загруженных файлов
