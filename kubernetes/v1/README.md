@@ -83,3 +83,179 @@ Client Version: v1.21.10
 Server Version: v1.21.10
 ```
 
+## Создание локального репозитория
+
+Воспользуемся официальным образом [Docker Registry](https://registry.hub.docker.com/_/registry/) для хранения и распространения контейнеров и артефактов.
+
+* [About Registry](https://distribution.github.io/distribution/about/)
+* [Distribution Registry](https://distribution.github.io/distribution/)
+* [Deploy a registry server](https://distribution.github.io/distribution/about/deploying/)
+
+Репозиторий развернем в кластере с хранилищем в инфраструктуре Kubernetes
+
+1. Создать том и выполнить запрос на хранилище
+
+```
+$ kubectl apply -f registry-volumes.yaml
+``` 
+
+Смотрим, что получилось
+
+```
+ $ kubectl get pv,pvc
+NAME                               CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                  STORAGECLASS    REASON   AGE
+persistentvolume/registry.volume   10Gi       RWO            Retain           Bound    default/registry.pvc   local-storage            3d9h
+
+NAME                                 STATUS   VOLUME            CAPACITY   ACCESS MODES   STORAGECLASS    AGE
+persistentvolumeclaim/registry.pvc   Bound    registry.volume   10Gi       RWO            local-storage   3d9h
+```
+
+2. Запустить cервис репозитория
+
+```
+$ kubectl apply -f registry.yaml 
+```
+
+Под запущен и готов к использованию
+
+```
+$ kubectl get pods -o wide
+NAME                        READY   STATUS    RESTARTS   AGE     IP           NODE                 NOMINATED NODE   READINESS GATES
+registry-67cbb5cf9b-nktvn   1/1     Running   0          3d10h   10.244.1.2   filestorage-worker   <none>           <none>
+```
+
+3. Проверяем доступность репозитория с наружи кластера
+
+```
+ $ curl http://localhost:5000/v2/_catalog
+{"repositories":[]}
+``` 
+
+4. Проверяем доступность репозитория с ноды кластера
+
+```
+$ docker exec -it filestorage-worker curl http://localhost:30000/v2/_catalog
+{"repositories":[]}
+```
+
+## Загрузка образа в репозиторий
+
+Будем использовать образ сервиса [Humster](../../source/hamster/v1/).
+
+1. Соберем образ сервиса
+
+```
+$ cd ../../source/hamster/v1/
+$ docker build -t hamster:0.0.1 .
+```
+
+Образ собран 
+
+```
+$ docker images
+REPOSITORY               TAG        IMAGE ID       CREATED        SIZE
+hamster                  0.0.1      2848c9a8199e   4 days ago     1.05GB
+```
+
+2. Создать тег с указанием репозитория
+
+```
+$ docker tag hamster:0.0.1 localhost:5000/hamster:0.0.1
+```
+
+```
+$ docker images
+REPOSITORY               TAG        IMAGE ID       CREATED        SIZE
+hamster                  0.0.1      2848c9a8199e   4 days ago     1.05GB
+localhost:5000/hamster   0.0.1      2848c9a8199e   4 days ago     1.05GB
+```
+
+3. Залить образ в репозиторий
+
+```
+$ docker push localhost:5000/hamster:0.0.1
+```
+
+4. Проверяем доступность репозитория с ноды кластера
+
+```
+$ docker exec -it filestorage-worker curl http://localhost:30000/v2/_catalog
+{"repositories":["hamster"]}
+```
+
+## Запуск сервиса Humster
+
+1. Создать том и выполнить запрос на хранилище
+
+```
+$ kubectl apply -f hamster-volumes.yaml
+``` 
+
+Смотрим, что получилось
+
+```
+ $ kubectl get pv,pvc
+NAME                               CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                  STORAGECLASS    REASON   AGE
+persistentvolume/hamster.volume    2Gi        RWO            Retain           Bound    default/hamster.pvc    local-storage            2s
+persistentvolume/registry.volume   10Gi       RWO            Retain           Bound    default/registry.pvc   local-storage            25m
+
+NAME                                 STATUS   VOLUME            CAPACITY   ACCESS MODES   STORAGECLASS    AGE
+persistentvolumeclaim/hamster.pvc    Bound    hamster.volume    2Gi        RWO            local-storage   2s
+persistentvolumeclaim/registry.pvc   Bound    registry.volume   10Gi       RWO            local-storage   25m 
+```
+
+2. Запустить cервис репозитория
+
+```
+$ kubectl apply -f hamster.yaml 
+```
+
+Под запущен и готов к использованию
+
+```
+$ kubectl get pods -o wide
+NAME                                  READY   STATUS    RESTARTS   AGE   IP           NODE                 NOMINATED NODE   READINESS GATES
+hamster-deployment-6c9bffc5fc-2kt92   1/1     Running   0          20m   10.244.1.7   filestorage-worker   <none>           <none>
+hamster-deployment-6c9bffc5fc-45bpz   1/1     Running   0          20m   10.244.1.6   filestorage-worker   <none>           <none>
+registry-67cbb5cf9b-69dln             1/1     Running   0          24m   10.244.1.5   filestorage-worker   <none>           <none>
+```
+
+3. Тестируем систему 
+
+Загружаем тестовый файл
+
+```
+$ cd ../../source/hamster/v1/
+$ curl -i -X POST -H "Content-Type: multipart/form-data" -F "file=@test.txt"  http://localhost:8000/
+HTTP/1.1 201 Created
+date: Mon, 01 Jul 2024 16:28:22 GMT
+server: uvicorn
+content-length: 44
+content-type: application/json
+
+{"message":"Successfully uploaded test.txt"}
+```
+
+Проверяем доступность загруженного файла через API
+
+```
+$ curl http://localhost:8000/
+{"files":["test.txt"]}
+```
+
+Проверяем физическое расположение файла на узле
+
+```
+$ docker exec -it filestorage-worker ls /tmp/files
+test.txt
+```
+
+Проверяем физичекое расположение файлов на нодах, директория которых смотрит на директорию узла. 
+
+```
+$ kubectl exec -it hamster-deployment-6c9bffc5fc-2kt92 -- ls /tmp/files
+test.txt
+$ kubectl exec -it hamster-deployment-6c9bffc5fc-45bpz -- ls /tmp/files
+test.txt
+```
+

@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Service
+metadata: 
+  name: hamster-service
+spec:
+  selector:
+    app: hamster
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30100
+  type: LoadBalancer
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hamster-deployment
+spec:
+  selector:
+    matchLabels:
+      app: hamster
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: hamster
+    spec:
+      volumes:
+        - name: hamster-volume
+          persistentVolumeClaim:
+            claimName: hamster.pvc
+      containers:
+        - name: hamster
+          volumeMounts:
+          - name: hamster-volume
+            mountPath: /tmp/files
+          image: localhost:30000/hamster:0.0.1
+          ports:
+            - containerPort: 80
