@@ -1,0 +1,61 @@
+@startuml
+
+component docker {
+
+    portin localhostHamsterPort as "localhost:5000"
+    portin localhostRegistryPort as "localhost:8000"
+
+    node worker <<Node>> {
+        portin workerHamsterPort as "30100"
+        portin workerRegistryPort as "30000"
+        
+        component hamsters as "hamster" <<Pod>> {
+            portin hamstersPort as "hamster-service:80"
+
+            component  hamster1 as "hamster:0.0.1" <<Container>> {
+                portin hamster1Port as "80"
+
+                folder hamster1Files as "/tmp/files" <<Volume Mount>>
+            }
+
+            component  hamster2 as "hamster:0.0.1" <<Container>> {
+                portin hamster2Port as "80"
+
+                folder hamster2Files as "/tmp/files" <<Volume Mount>>
+            }
+
+            hamstersPort -- hamster1Port
+            hamstersPort -- hamster2Port
+        }
+                    
+        hamstersPort -- workerHamsterPort
+    
+        folder hamsterFiles as "/tmp/files" <<Local Storage>>
+
+        hamster1Files -- hamsterFiles
+        hamster2Files -- hamsterFiles
+
+        component registries as "registry" <<Pod>> {
+            portin registriesPort as "registry-service:5000"
+
+            component registry1 as "registry:2.8.2" <<Container>> {
+                portin registry1Port as "5000" 
+
+                folder registry1Images as "/var/lib/registry" <<Volume Mount>>
+            }
+
+            registriesPort -- registry1Port
+        }
+
+        registriesPort -- workerRegistryPort
+
+        folder registryImages as "/var/lib/registry" <<Volume Mount>>
+
+        registry1Images -- registryImages
+    }
+
+    localhostHamsterPort -- workerHamsterPort
+    localhostRegistryPort -- workerRegistryPort
+}
+
+@enduml
