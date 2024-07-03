@@ -8,7 +8,7 @@
 * Client Version: v1.21.10
 * Server Version: v1.21.10
 
-![](deployment.png)
+![](deploy.png)
 
 ## Запуск кластера
 
