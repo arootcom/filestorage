@@ -8,7 +8,7 @@
 * Client Version: v1.21.10
 * Server Version: v1.21.10
 
-В качестве эксперемента запустим сервис humster:0.0.1 в kubernetes. Схема деплоя представлена ниже.
+В качестве эксперемента запустим сервис [Humster:0.0.1](../../source/hamster/v1/) в kubernetes. Схема деплоя представлена ниже.
 
 ![](deploy.png)
 
@@ -144,7 +144,7 @@ $ docker exec -it filestorage-worker curl http://localhost:30000/v2/_catalog
 
 ## Загрузка образа в репозиторий
 
-Будем использовать образ сервиса [Humster](../../source/hamster/v1/).
+Будем использовать образ сервиса [Humster:0.0.1](../../source/hamster/v1/).
 
 1. Соберем образ сервиса
 
