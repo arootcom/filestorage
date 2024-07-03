@@ -8,6 +8,21 @@
 * Client Version: v1.21.10
 * Server Version: v1.21.10
 
+<div hidden>
+```
+@startuml firstDiagram
+
+Alice -> Bob: Hello
+Bob -> Alice: Hi!
+		
+@enduml
+```
+</div>
+
+![](deploy.svg)
+
+
+
 ## Запуск кластера
 
 1. Установить Docker
